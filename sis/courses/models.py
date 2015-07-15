@@ -1,15 +1,51 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-
-    # The additional attributes we wish to include.
-    website = models.URLField(blank=True)
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-
-    # Override the __unicode__() method to return out something meaningful!
+class Course(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    code = models.CharField(max_length=128, unique=True)
+    discription = models.CharField(max_length=128)
+  
+    
     def __unicode__(self):
-        return self.user.username# Create your models here.
+        return (self.name)
+    
+class Module(models.Model):
+    course = models.ForeignKey(Course)
+    name = models.CharField(max_length=128, unique=True)
+    code = models.CharField(max_length=128, unique=True)
+    discription = models.CharField(max_length=128)
+  
+    
+    def __unicode__(self):
+        return (self.name)
+
+class Topic(models.Model):
+    module = models.ForeignKey(Module)
+    name = models.CharField(max_length=128, unique=True)
+    code = models.CharField(max_length=128, unique=True)
+    discription = models.CharField(max_length=128)
+  
+    
+    def __unicode__(self):
+        return (self.name)
+
+class Lesson(models.Model):
+    topic = models.ForeignKey(Topic)
+    name = models.CharField(max_length=128, unique=True)
+    code = models.CharField(max_length=128, unique=True)
+    discription = models.CharField(max_length=128)
+  
+    
+    def __unicode__(self):
+        return (self.name)
+    
+class Activity(models.Model):
+    lesson = models.ForeignKey(Lesson)
+    name = models.CharField(max_length=128, unique=True)
+    code = models.CharField(max_length=128, unique=True)
+    discription = models.CharField(max_length=128)
+  
+    
+    def __unicode__(self):
+        return (self.name)
